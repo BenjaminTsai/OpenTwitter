@@ -20,6 +20,19 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func onLogin(sender: AnyObject) {
+        TwitterClient.sharedInstance.loginWithCompletion( { (account: Account?, error: NSError?) in
+            if let account = account {
+                NSLog("login success")
+                Account.currentAccount = account
+                self.performSegueWithIdentifier("loginToTweetsSegue", sender: self)
+            } else if let error = error {
+                NSLog("%@", error)
+            } else {
+                NSLog("loginWithCompletion all nil")
+            }
+        })
+    }
 
 }
 
