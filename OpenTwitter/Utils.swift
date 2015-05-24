@@ -11,10 +11,11 @@ import Alamofire
 
 class Utils {
     
-    let shortDateFormatter: NSDateFormatter
+    let detailDateFormatter: NSDateFormatter = NSDateFormatter()
+    let shortDateFormatter: NSDateFormatter = NSDateFormatter()
 
     init() {
-        shortDateFormatter = NSDateFormatter()
+        detailDateFormatter.dateFormat = "yyyy-MM-dd 'at' HH:mm"
         shortDateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
     }
     
@@ -26,6 +27,10 @@ class Utils {
     
     func formatDate(date: NSDate) -> String {
         return shortDateFormatter.stringFromDate(date)
+    }
+    
+    func formatDetailDate(date: NSDate) -> String {
+        return detailDateFormatter.stringFromDate(date)
     }
     
     // Singleton

@@ -13,6 +13,10 @@ let favoriteImageName = "favorite"
 let retweetImageName = "retweet"
 let retweetOnImageName = "retweet_on"
 
+enum TweetCellMode {
+    case Compact, Detail
+}
+
 protocol TweetCellProtocol: class {
     func tweetCell(tweetCell: TweetCell, didUpdateTweet: Tweet)
     func tweetCell(tweetCell: TweetCell, replyToTweet: Tweet)
@@ -39,6 +43,7 @@ class TweetCell: UITableViewCell {
 
     weak var delegate: TweetCellProtocol?
     
+    var mode: TweetCellMode = .Compact    
     var tweet: Tweet! {
         didSet {
             let tweetForDisplay: Tweet
@@ -77,18 +82,24 @@ class TweetCell: UITableViewCell {
             }
             
             if let createdAt = tweet.createdAt {
-                // seconds
-                let secondsSinceCreated = createdAt.timeIntervalSinceNow.distanceTo(0)
-                let minutesSinceCreated = Int(secondsSinceCreated / 60)
-                let hoursSinceCreated = Int(secondsSinceCreated / (60 * 60))
-                
-                if minutesSinceCreated < 60 {
-                    createdAtLabel.text = "\(minutesSinceCreated)m"
-                } else if hoursSinceCreated < 23 {
-                    createdAtLabel.text = "\(hoursSinceCreated)h"
-                } else {
-                    createdAtLabel.text = Utils.sharedInstance.formatDate(createdAt)                    
+                switch mode {
+                case .Compact:
+                    // seconds
+                    let secondsSinceCreated = createdAt.timeIntervalSinceNow.distanceTo(0)
+                    let minutesSinceCreated = Int(secondsSinceCreated / 60)
+                    let hoursSinceCreated = Int(secondsSinceCreated / (60 * 60))
+                    
+                    if minutesSinceCreated < 60 {
+                        createdAtLabel.text = "\(minutesSinceCreated)m"
+                    } else if hoursSinceCreated < 23 {
+                        createdAtLabel.text = "\(hoursSinceCreated)h"
+                    } else {
+                        createdAtLabel.text = Utils.sharedInstance.formatDate(createdAt)
+                    }
+                case .Detail:
+                    createdAtLabel.text = Utils.sharedInstance.formatDetailDate(createdAt)
                 }
+                
             }
             self.layoutIfNeeded()
         }

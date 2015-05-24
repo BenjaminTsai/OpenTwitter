@@ -76,10 +76,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetDetailCell", forIndexPath: indexPath) as! TweetCell
         
-        cell.tweet = tweet
         cell.delegate = self
-        cell.setNeedsLayout()
-        cell.layoutIfNeeded()
+        cell.mode = .Detail
+        cell.tweet = tweet
+//        cell.setNeedsLayout()
+//        cell.layoutIfNeeded()
         
         return cell
     }

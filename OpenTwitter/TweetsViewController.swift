@@ -105,10 +105,11 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
 
-        cell.tweet = tweet
-        cell.setNeedsLayout()
-        cell.layoutIfNeeded()
+        cell.mode = .Compact
         cell.delegate = self
+        cell.tweet = tweet
+//        cell.setNeedsLayout()
+//        cell.layoutIfNeeded()
         
         return cell
     }
