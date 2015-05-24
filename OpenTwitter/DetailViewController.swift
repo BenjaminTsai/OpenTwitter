@@ -58,7 +58,7 @@ class DetailViewController: UIViewController {
             composeTweetViewController.delegate = self
             composeTweetViewController.inReplyToTweet = tweet
         default:
-            NSLog("aa")
+            NSLog("Unknown segue: \(segue.identifier)")
         }
         
     }
@@ -66,15 +66,6 @@ class DetailViewController: UIViewController {
     @IBAction func onReply(sender: AnyObject) {
         performSegueWithIdentifier(detailToComposeSegue, sender: self)
     }
-    
-    @IBAction func onRetweet(sender: AnyObject) {
-        NSLog("on retweet")
-    }
-    
-    @IBAction func onFavorite(sender: AnyObject) {
-        NSLog("on fav")
-    }
-    
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {

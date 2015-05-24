@@ -20,6 +20,7 @@ protocol TweetCellProtocol: class {
 
 class TweetCell: UITableViewCell {
     
+    @IBOutlet weak var retweeterIconImageView: UIImageView!
     @IBOutlet weak var retweeterLabel: UILabel?
     
     @IBOutlet weak var profileImageView: UIImageView!
@@ -34,6 +35,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint?
+    @IBOutlet weak var profileImageToRetweetConstraint: NSLayoutConstraint?
+
     weak var delegate: TweetCellProtocol?
     
     var tweet: Tweet! {
@@ -42,8 +46,16 @@ class TweetCell: UITableViewCell {
             if let retweetedStatus = tweet.retweetedStatus {
                 tweetForDisplay = retweetedStatus
                 retweeterLabel?.text = "\(tweet.account!.name!) retweeted"
+
+                retweeterIconImageView?.hidden = false
+                retweeterLabel?.hidden = false
+                profileImageTopConstraint?.constant = 200
             } else {
                 tweetForDisplay = tweet
+
+                retweeterIconImageView?.hidden = true
+                retweeterLabel?.hidden = true
+                profileImageTopConstraint?.constant = 8
             }
             
             if let profileImageUrl = tweetForDisplay.account!.profileImageUrl {
@@ -79,9 +91,7 @@ class TweetCell: UITableViewCell {
                     createdAtLabel.text = Utils.sharedInstance.formatDate(createdAt)                    
                 }
             }
-            
-//            NSLog("\(tweet.text)")
-//            self.layoutIfNeeded()
+            self.layoutIfNeeded()
         }
     }
 
