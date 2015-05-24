@@ -36,7 +36,6 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint?
-    @IBOutlet weak var profileImageToRetweetConstraint: NSLayoutConstraint?
 
     weak var delegate: TweetCellProtocol?
     

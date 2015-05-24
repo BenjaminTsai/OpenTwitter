@@ -19,7 +19,16 @@ class ComposeTweetViewController: UIViewController {
     @IBOutlet weak var tweetTextView: UITextView!
     
     weak var delegate: ComposeTweetViewControllerDelegate?
-    var inReplyToTweet: Tweet?
+
+    var inReplyToTweet: Tweet? {
+        set(newValue) {
+            _inReplyToTweet = newValue
+        }
+        get {
+            return _inReplyToTweet?.retweetedStatus ?? _inReplyToTweet
+        }
+    }
+    private var _inReplyToTweet: Tweet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
