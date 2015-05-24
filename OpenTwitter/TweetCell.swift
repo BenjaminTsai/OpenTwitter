@@ -20,6 +20,8 @@ protocol TweetCellProtocol: class {
 
 class TweetCell: UITableViewCell {
     
+    @IBOutlet weak var retweeterLabel: UILabel?
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -36,16 +38,24 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
-            if let profileImageUrl = tweet.account!.profileImageUrl {
+            let tweetForDisplay: Tweet
+            if let retweetedStatus = tweet.retweetedStatus {
+                tweetForDisplay = retweetedStatus
+                retweeterLabel?.text = "\(tweet.account!.name!) retweeted"
+            } else {
+                tweetForDisplay = tweet
+            }
+            
+            if let profileImageUrl = tweetForDisplay.account!.profileImageUrl {
                 Utils.sharedInstance.loadImage(fromString: profileImageUrl, forImage: profileImageView)
             }
           
-            bodyLabel.text = tweet.text
-            nameLabel.text = tweet.account?.name
-            screennameLabel.text = "@" + (tweet.account?.screenname ?? "")
+            bodyLabel.text = tweetForDisplay.text
+            nameLabel.text = tweetForDisplay.account?.name
+            screennameLabel.text = "@" + (tweetForDisplay.account?.screenname ?? "")
             
-            retweetCountLabel?.text = "\(tweet.retweetCount ?? 0)"
-            favoriteCountLabel?.text = "\(tweet.favoriteCount ?? 0)"
+            retweetCountLabel?.text = "\(tweetForDisplay.retweetCount ?? 0)"
+            favoriteCountLabel?.text = "\(tweetForDisplay.favoriteCount ?? 0)"
             
             if tweet.retweeted ?? false {
                 retweetButton.setImage(UIImage(named: retweetOnImageName), forState: UIControlState.Normal)
