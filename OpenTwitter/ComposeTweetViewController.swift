@@ -15,11 +15,14 @@ protocol ComposeTweetViewControllerDelegate: class {
 
 class ComposeTweetViewController: UIViewController {
 
+    @IBOutlet weak var charLimitLabel: UILabel!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var tweetTextView: UITextView!
     
     weak var delegate: ComposeTweetViewControllerDelegate?
 
+    private let maxTwitterLength = 140
+    
     var inReplyToTweet: Tweet? {
         set(newValue) {
             _inReplyToTweet = newValue
@@ -34,12 +37,14 @@ class ComposeTweetViewController: UIViewController {
         super.viewDidLoad()
 
         name.text = Account.currentAccount?.name
-        
+
+        tweetTextView.delegate = self        
         if let replyToAccount = inReplyToTweet?.account {
             tweetTextView.text = "@" + replyToAccount.screenname! + " "
         } else {
             tweetTextView.text = ""
         }
+        refreshCharLimitLabel()
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,14 +66,14 @@ class ComposeTweetViewController: UIViewController {
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func refreshCharLimitLabel() {
+        let remaining = maxTwitterLength - count(tweetTextView.text)
+        charLimitLabel.text = "\(remaining)"
     }
-    */
+}
 
+extension ComposeTweetViewController: UITextViewDelegate {
+    func textViewDidChange(textView: UITextView) {
+        refreshCharLimitLabel()
+    }
 }

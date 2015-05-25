@@ -17,9 +17,10 @@ class TweetsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     private var refreshControl: UIRefreshControl!
-    var tweets: [Tweet]?
+    private var tweets: [Tweet]?
     
-    var replyToTweet: Tweet?
+    private var replyToTweet: Tweet?
+    private var hasOlderTweets: Bool = true
     
     @IBAction func onLogout(sender: AnyObject) {
         Account.currentAccount?.logout()
@@ -85,6 +86,7 @@ class TweetsViewController: UIViewController {
                 NSLog("Error %@", error)
             } else {
                 self.tweets = tweets
+                self.hasOlderTweets = true
                 self.tableView.reloadData()
             }
         })
@@ -92,37 +94,67 @@ class TweetsViewController: UIViewController {
 }
 
 extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
-//    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 1
-//    }
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if hasOlderTweets {
+            return 2
+        }
+        return 1
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets?.count ?? 0
+        if section == 0 {
+            return tweets?.count ?? 0
+        }
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let tweet = tweets![indexPath.row]
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
-
-        cell.mode = .Compact
-        cell.delegate = self
-        cell.tweet = tweet
-//        cell.setNeedsLayout()
-//        cell.layoutIfNeeded()
-        
-        return cell
+        if indexPath.section == 0 {
+            let tweet = tweets![indexPath.row]
+            let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
+            
+            cell.mode = .Compact
+            cell.delegate = self
+            cell.tweet = tweet
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell", forIndexPath: indexPath) as! UITableViewCell
+            return cell
+        }
     }
 
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-////        return 0
-//    }
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 || tweets == nil || !hasOlderTweets {
+            return
+        }
+        
+        // Displayed loading section, time to grab more tweets
+        let oldestTweet = tweets![tweets!.count - 1]
+        var params = Dictionary<String, AnyObject>()
+
+        params["max_id"] = oldestTweet.id_int! - 1
+        TwitterClient.sharedInstance.homeTimelineWithParams(params) { (tweets, error) -> () in
+            if let error = error {
+                NSLog("Error while loading moret tweets: %@", error)
+                return
+            }
+            
+            if let tweets = tweets {
+                if tweets.count == 0 {
+                    self.hasOlderTweets = false
+                } else {
+                    self.tweets = self.tweets! + tweets
+                }
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TweetCell
 
         self.performSegueWithIdentifier(tweetsToDetailSegue, sender: self)
-        // tweetsToDetailSegue
     }
 }
 

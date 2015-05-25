@@ -15,7 +15,7 @@ class Utils {
     let shortDateFormatter: NSDateFormatter = NSDateFormatter()
 
     init() {
-        detailDateFormatter.dateFormat = "yyyy-MM-dd 'at' HH:mm"
+        detailDateFormatter.dateFormat = "M/d/yy, h:mm a"
         shortDateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
     }
     

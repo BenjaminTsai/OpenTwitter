@@ -94,12 +94,8 @@ class TwitterClient {
     }
 
     func homeTimelineWithParams(params: Dictionary<String, AnyObject>?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
-//        var parameters = Dictionary<String, AnyObject>()
-//        parameters["include_my_retweet"] = true
-        
         oauth.client.get("https://api.twitter.com/1.1/statuses/home_timeline.json",
             parameters: params ?? Dictionary<String, AnyObject>(),
-//            parameters: parameters,
             success: { (data: NSData, response: NSHTTPURLResponse) -> Void in
                 var error: NSError?
                 let jsonArray = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error) as! NSArray
@@ -121,12 +117,18 @@ class TwitterClient {
     }
     
     func getStatus(id: String, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+//        var params = Dictionary<String, AnyObject>()
+//        params["id"] = id
+//        params["include_my_retweet"] = true
+//        params["trim_user"] = false
+//        params["include_entities"] = true
+//        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show.json", parameters: params, completion: completion)
+
         var params = Dictionary<String, AnyObject>()
-        params["id"] = id
-        params["include_my_retweet"] = true
-        params["trim_user"] = false
-        params["include_entities"] = true
-        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show.json", parameters: params, completion: completion)
+        params["include_my_retweet"] = "true"
+//        params["trim_user"] = false
+//        params["include_entities"] = true
+        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show/" + id + ".json", parameters: params, completion: completion)
     }
     
     func updateStatus(status: String, inReplyToId: String?, completion: (tweet: Tweet?, error: NSError?) -> ()) {

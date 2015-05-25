@@ -25,7 +25,7 @@ protocol TweetCellProtocol: class {
 class TweetCell: UITableViewCell {
     
     @IBOutlet weak var retweeterIconImageView: UIImageView!
-    @IBOutlet weak var retweeterLabel: UILabel?
+    @IBOutlet weak var retweeterLabel: UILabel!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var bodyLabel: UILabel!
@@ -49,23 +49,26 @@ class TweetCell: UITableViewCell {
             let tweetForDisplay: Tweet
             if let retweetedStatus = tweet.retweetedStatus {
                 tweetForDisplay = retweetedStatus
-                retweeterLabel?.text = "\(tweet.account!.name!) retweeted"
+                retweeterLabel.text = "\(tweet.account!.name!) retweeted"
 
-                retweeterIconImageView?.hidden = false
-                retweeterLabel?.hidden = false
+                retweeterIconImageView.hidden = false
+                retweeterLabel.hidden = false
                 profileImageTopConstraint?.constant = 200
             } else {
                 tweetForDisplay = tweet
 
-                retweeterIconImageView?.hidden = true
-                retweeterLabel?.hidden = true
+                retweeterIconImageView.hidden = true
+                retweeterLabel.hidden = true
                 profileImageTopConstraint?.constant = 8
             }
             
-            if let profileImageUrl = tweetForDisplay.account!.profileImageUrl {
-                Utils.sharedInstance.loadImage(fromString: profileImageUrl, forImage: profileImageView)
+            switch mode {
+            case .Compact:
+                Utils.sharedInstance.loadImage(fromString: tweetForDisplay.account!.profileImageUrl!, forImage: profileImageView)
+            case .Detail:
+                Utils.sharedInstance.loadImage(fromString: tweetForDisplay.account!.profileImageBiggerUrl!, forImage: profileImageView)
             }
-          
+            
             bodyLabel.text = tweetForDisplay.text
             nameLabel.text = tweetForDisplay.account?.name
             screennameLabel.text = "@" + (tweetForDisplay.account?.screenname ?? "")
