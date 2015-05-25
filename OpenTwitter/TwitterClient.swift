@@ -222,5 +222,4 @@ class TwitterClient {
     func openURL(url: NSURL) {
         OAuth1Swift.handleOpenURL(url)
     }
-    
 }

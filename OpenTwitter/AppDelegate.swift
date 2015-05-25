@@ -16,8 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        Account.currentAccount?.logout()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: accountDidLogoutNotification, object: nil)
         
@@ -25,8 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Go to the logged in screen
             println("Current user detected \(Account.currentAccount?.name)")
             var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavViewController") as? UIViewController
-//            var foo = UINavigationController()
-//            foo.addChildViewController(vc!)
             window?.rootViewController = vc
         }
         return true

@@ -113,22 +113,6 @@ class TweetCell: UITableViewCell {
         
         profileImageView.layer.cornerRadius = 3
         profileImageView.clipsToBounds = true
-
-//        bodyLabel.preferredMaxLayoutWidth = bodyLabel.frame.size.width
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        // necessary?
-//        bodyLabel.preferredMaxLayoutWidth = bodyLabel.frame.size.width
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-//        bodyLabel.preferredMaxLayoutWidth = bodyLabel.frame.size.width
     }
     
     @IBAction func onReply(sender: AnyObject) {
@@ -140,7 +124,6 @@ class TweetCell: UITableViewCell {
             if let error = error {
                 NSLog("Error: %@", error)
             } else if let tweet = tweet {
-                NSLog("success")
                 self.tweet = tweet
                 self.delegate?.tweetCell(self, didUpdateTweet: tweet)
             } else {

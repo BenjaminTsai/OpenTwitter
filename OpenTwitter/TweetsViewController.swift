@@ -36,19 +36,13 @@ class TweetsViewController: UIViewController {
         tableView.estimatedRowHeight = 120
         
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.redColor()
+        refreshControl.tintColor = UIColor.blackColor()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
         
         onRefresh()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier! {
             case tweetsToComposeSegue:
@@ -159,10 +153,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension TweetsViewController: TweetCellProtocol {
-    func tweetCell(tweetCell: TweetCell, didUpdateTweet: Tweet) {
-//        tweet = didUpdateTweet
-//        delegate?.detailViewController(self, didUpdateTweet: didUpdateTweet)
-    }
+    func tweetCell(tweetCell: TweetCell, didUpdateTweet: Tweet) {}
     
     func tweetCell(tweetCell: TweetCell, replyToTweet: Tweet) {
         self.replyToTweet = replyToTweet

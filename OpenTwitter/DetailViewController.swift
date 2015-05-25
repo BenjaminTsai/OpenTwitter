@@ -45,11 +45,6 @@ class DetailViewController: UIViewController {
 //        })
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier! {
         case detailToComposeSegue:
@@ -60,7 +55,6 @@ class DetailViewController: UIViewController {
         default:
             NSLog("Unknown segue: \(segue.identifier)")
         }
-        
     }
     
     @IBAction func onReply(sender: AnyObject) {
@@ -79,8 +73,6 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.mode = .Detail
         cell.tweet = tweet
-//        cell.setNeedsLayout()
-//        cell.layoutIfNeeded()
         
         return cell
     }

@@ -1,8 +1,8 @@
-# Twitter
+# OpenTwitter
 
-This is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
+This is a simple Twitter app to read and compose Tweets.
 
-Time spent: `<Number of hours spent>`
+Time spent: `16.5` hours
 
 ## Features
 
@@ -27,6 +27,17 @@ Time spent: `<Number of hours spent>`
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet,
 - [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
+## Instructions
+
+To run this app, you'll need to create a `secrets.plist` resource file and populate it with your Twitter API key and secret in `consumer_key` and `consumer_secret` properties.
+
 ## Walkthrough
 
 ![Video Walkthrough](...)
+
+
+## Credits
+* [Twitter API](https://dev.twitter.com/rest/public)
+* [Carthage](https://github.com/Carthage/Carthage)
+* [OAuthSwift](https://github.com/dongri/OAuthSwift)
+* [Alamofire](https://github.com/Alamofire/Alamofire)

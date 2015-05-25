@@ -15,9 +15,14 @@ protocol ComposeTweetViewControllerDelegate: class {
 
 class ComposeTweetViewController: UIViewController {
 
-    @IBOutlet weak var charLimitLabel: UILabel!
-    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var tweetTextView: UITextView!
+
+    @IBOutlet weak var charLimitLabel: UILabel!
+
+    @IBOutlet weak var textViewToBottomConstraint: NSLayoutConstraint!
     
     weak var delegate: ComposeTweetViewControllerDelegate?
 
@@ -33,11 +38,36 @@ class ComposeTweetViewController: UIViewController {
     }
     private var _inReplyToTweet: Tweet?
     
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardDidShowNotification,
+            object: nil,
+            queue: nil,
+            usingBlock: { (notification: NSNotification!) in
+                if let info = notification.userInfo {
+                    var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+                    self.textViewToBottomConstraint.constant = keyboardFrame.height
+                    self.view.layoutIfNeeded()
+                }
+            }
+        )
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        name.text = Account.currentAccount?.name
+        Utils.sharedInstance.loadImage(fromString: Account.currentAccount!.profileImageUrl!, forImage: profileImageView)
+        nameLabel.text = Account.currentAccount?.name
+        screennameLabel.text = "@" + (Account.currentAccount?.screenname ?? "")
 
+        // this should not be needed, it's still messing up the scrollbar display
+        tweetTextView.contentInset.top = -65
+        
         tweetTextView.delegate = self        
         if let replyToAccount = inReplyToTweet?.account {
             tweetTextView.text = "@" + replyToAccount.screenname! + " "
@@ -45,11 +75,9 @@ class ComposeTweetViewController: UIViewController {
             tweetTextView.text = ""
         }
         refreshCharLimitLabel()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        // show keyboard
+        tweetTextView.becomeFirstResponder()
     }
 
     @IBAction func onCancel(sender: AnyObject) {
@@ -66,7 +94,7 @@ class ComposeTweetViewController: UIViewController {
         }
     }
     
-    func refreshCharLimitLabel() {
+    private func refreshCharLimitLabel() {
         let remaining = maxTwitterLength - count(tweetTextView.text)
         charLimitLabel.text = "\(remaining)"
     }
