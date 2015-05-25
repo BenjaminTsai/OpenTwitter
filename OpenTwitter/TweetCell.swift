@@ -78,13 +78,17 @@ class TweetCell: UITableViewCell {
             
             if tweet.retweeted ?? false {
                 retweetButton.setImage(UIImage(named: retweetOnImageName), forState: UIControlState.Normal)
+            } else {
+                retweetButton.setImage(UIImage(named: retweetImageName), forState: UIControlState.Normal)
             }
             
             if tweet.favorited ?? false {
                 favoriteButton.setImage(UIImage(named: favoriteOnImageName), forState: UIControlState.Normal)
+            } else {
+                favoriteButton.setImage(UIImage(named: favoriteImageName), forState: UIControlState.Normal)
             }
             
-            if let createdAt = tweet.createdAt {
+            if let createdAt = tweetForDisplay.createdAt {
                 switch mode {
                 case .Compact:
                     // seconds
