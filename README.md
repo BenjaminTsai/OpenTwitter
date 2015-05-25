@@ -33,8 +33,7 @@ To run this app, you'll need to create a `secrets.plist` resource file and popul
 
 ## Walkthrough
 
-![Video Walkthrough](...)
-
+![Video Walkthrough](demo.gif)
 
 ## Credits
 * [Twitter API](https://dev.twitter.com/rest/public)
