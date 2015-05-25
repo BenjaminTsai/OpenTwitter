@@ -241,7 +241,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="jna-cw-vdx">
+                        <barButtonItem key="rightBarButtonItem" id="jna-cw-vdx">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tKj-PX-gov">
                                 <rect key="frame" x="-23" y="-15" width="71" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -598,7 +598,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XR2-jc-CEM">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="ESe-Fl-rzX">
+                        <barButtonItem key="rightBarButtonItem" id="ESe-Fl-rzX">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RP2-FQ-zjC">
                                 <rect key="frame" x="-23" y="-15" width="71" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -634,6 +634,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9TO-ot-svv"/>
+        <segue reference="4tJ-Fe-w3i"/>
     </inferredMetricsTieBreakers>
 </document>

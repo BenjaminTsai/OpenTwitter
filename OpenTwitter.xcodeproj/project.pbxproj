@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		AB11E1B91B0EF4A400006540 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB11E1B81B0EF4A400006540 /* TweetCell.swift */; };
-		AB11E1BB1B0F08FE00006540 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AB11E1BA1B0F08FD00006540 /* README.md */; };
 		AB2164581B114D4C00F19009 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2164571B114D4C00F19009 /* DetailViewController.swift */; };
 		AB21645A1B11516900F19009 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2164591B11516900F19009 /* Utils.swift */; };
 		AB2164601B11B78D00F19009 /* secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB21645F1B11B78D00F19009 /* secrets.plist */; };
-		AB2164621B11B81F00F19009 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AB2164611B11B81F00F19009 /* .gitignore */; };
 		AB7127DC1B0FCD1A00D67B78 /* ComposeTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7127DB1B0FCD1A00D67B78 /* ComposeTweetViewController.swift */; };
 		AB7EF54F1B0C451A00C6BA4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF54E1B0C451A00C6BA4E /* AppDelegate.swift */; };
 		AB7EF5511B0C451A00C6BA4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF5501B0C451A00C6BA4E /* ViewController.swift */; };
@@ -20,14 +18,12 @@
 		AB7EF5561B0C451A00C6BA4E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB7EF5551B0C451A00C6BA4E /* Images.xcassets */; };
 		AB7EF5591B0C451A00C6BA4E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB7EF5571B0C451A00C6BA4E /* LaunchScreen.xib */; };
 		AB7EF5651B0C451A00C6BA4E /* OpenTwitterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF5641B0C451A00C6BA4E /* OpenTwitterTests.swift */; };
-		AB7EF56F1B0C47AD00C6BA4E /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = AB7EF56E1B0C47AD00C6BA4E /* Cartfile */; };
 		AB7EF5721B0C483700C6BA4E /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7EF5701B0C483700C6BA4E /* Alamofire.framework */; };
 		AB7EF5731B0C483700C6BA4E /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7EF5711B0C483700C6BA4E /* OAuthSwift.framework */; };
 		AB7EF5771B0C48E800C6BA4E /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF5761B0C48E800C6BA4E /* TwitterClient.swift */; };
 		AB7EF57A1B0C564900C6BA4E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF5791B0C564900C6BA4E /* Account.swift */; };
 		AB7EF57C1B0C565B00C6BA4E /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EF57B1B0C565B00C6BA4E /* Tweet.swift */; };
 		ABA56C7B1B0D345200F5A4C0 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA56C7A1B0D345200F5A4C0 /* TweetsViewController.swift */; };
-		ABBCEA911B12E11100CDF368 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = ABBCEA901B12E11100CDF368 /* demo.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,11 +261,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB7EF5541B0C451A00C6BA4E /* Main.storyboard in Resources */,
-				ABBCEA911B12E11100CDF368 /* demo.gif in Resources */,
 				AB7EF5591B0C451A00C6BA4E /* LaunchScreen.xib in Resources */,
 				AB2164601B11B78D00F19009 /* secrets.plist in Resources */,
-				AB7EF56F1B0C47AD00C6BA4E /* Cartfile in Resources */,
-				AB2164621B11B81F00F19009 /* .gitignore in Resources */,
 				AB7EF5561B0C451A00C6BA4E /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,7 +308,6 @@
 				AB7EF54F1B0C451A00C6BA4E /* AppDelegate.swift in Sources */,
 				AB21645A1B11516900F19009 /* Utils.swift in Sources */,
 				AB2164581B114D4C00F19009 /* DetailViewController.swift in Sources */,
-				AB11E1BB1B0F08FE00006540 /* README.md in Sources */,
 				ABA56C7B1B0D345200F5A4C0 /* TweetsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
