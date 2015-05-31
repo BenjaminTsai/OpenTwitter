@@ -75,9 +75,9 @@ class ContainerViewController: UIViewController {
             let velocity = sender.velocityInView(self.view)
 
             if velocity.x > 0 {
-                containerCenterConstraint.constant = -1 * hamburgerView.frame.width
+                revealHamburgerAnimation()
             } else {
-                containerCenterConstraint.constant = 0
+                hideHamburgerAnimation()
             }
         default:
             let foo = 1
@@ -87,16 +87,20 @@ class ContainerViewController: UIViewController {
     
     @IBAction func onSelectProfile(sender: AnyObject) {
         (profileVc.topViewController as! ProfileViewController).account = Account.currentAccount
-        
         activeViewController = profileVc
+        hideHamburgerAnimation()
     }
     
     @IBAction func onSelectHomeTimeline(sender: AnyObject) {
+        homeNavigatorVc.popToRootViewControllerAnimated(true)
         activeViewController = homeNavigatorVc
+        hideHamburgerAnimation()
     }
     
     @IBAction func onSelectMentions(sender: AnyObject) {
+        homeNavigatorVc.popToRootViewControllerAnimated(true)
         activeViewController = mentionsNavigatorVc
+        hideHamburgerAnimation()
     }
     
     
@@ -110,6 +114,31 @@ class ContainerViewController: UIViewController {
     }
     */
 
+    private func revealHamburgerAnimation() {
+        slideAnimation() {
+            self.containerCenterConstraint.constant = -1 * self.hamburgerView.frame.width
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func hideHamburgerAnimation() {
+        slideAnimation() {
+            self.containerCenterConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func slideAnimation(animations: () -> Void) {
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 0.0,
+            options: nil,
+            animations: animations,
+            completion: nil
+        )
+
+    }
 }
 
 class HomeTimelineDataSource: TweetsViewControllerDataSource {
