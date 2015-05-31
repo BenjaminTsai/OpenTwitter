@@ -135,17 +135,31 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func onRetweet(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweet(tweet, completion: { (retweet, error) -> () in
-            if let error = error {
-                NSLog("Error: %@", error)
-            } else if let retweet = retweet {
-                let tweet = self.tweet
-                tweet.retweeted = true
-                self.tweet = tweet
-            } else {
-                NSLog("Received empty result on destroy favorite")
-            }
-        })
+        if tweet.retweeted ?? false {
+            TwitterClient.sharedInstance.destroyRetweet(tweet, completion: { (tweet, error) -> () in
+                if let error = error {
+                    NSLog("Error: %@", error)
+                } else if let tweet = tweet {
+                    let tweet = self.tweet
+                    tweet.retweeted = false
+                    self.tweet = tweet
+                } else {
+                    NSLog("Received empty result on destroy retweet")
+                }
+            })
+        } else {
+            TwitterClient.sharedInstance.retweet(tweet, completion: { (retweet, error) -> () in
+                if let error = error {
+                    NSLog("Error: %@", error)
+                } else if let retweet = retweet {
+                    let tweet = self.tweet
+                    tweet.retweeted = true
+                    self.tweet = tweet
+                } else {
+                    NSLog("Received empty result on create retweet")
+                }
+            })
+        }
     }
     
     @IBAction func onFavorite(sender: AnyObject) {

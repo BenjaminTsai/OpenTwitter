@@ -39,7 +39,6 @@ class Tweet: NSObject {
         retweetCount = dictionary["retweet_count"] as? Int
         
         if let currentUserRetweetJson = dictionary["current_user_retweet"] as? NSDictionary {
-            NSLog("Got current user retweet %@", currentUserRetweetJson)
             currentUserRetweetId = currentUserRetweetJson["id_str"] as? String
         }
         

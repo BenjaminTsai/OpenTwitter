@@ -108,18 +108,12 @@ class TwitterClient {
     }
     
     func getStatus(id: String, completion: (tweet: Tweet?, error: NSError?) -> ()) {
-//        var params = Dictionary<String, AnyObject>()
-//        params["id"] = id
-//        params["include_my_retweet"] = true
-//        params["trim_user"] = false
-//        params["include_entities"] = true
-//        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show.json", parameters: params, completion: completion)
-
         var params = Dictionary<String, AnyObject>()
         params["include_my_retweet"] = 1
-//        params["trim_user"] = false
-//        params["include_entities"] = true
-        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show/" + id + ".json", parameters: params, completion: completion)
+        getRequestReturnsTweet("https://api.twitter.com/1.1/statuses/show/" + id + ".json",
+            parameters: params,
+            completion: completion
+        )
     }
     
     func updateStatus(status: String, inReplyToId: String?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
@@ -148,9 +142,25 @@ class TwitterClient {
         )
     }
     
+    func destroyStatus(id: String, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        postRequestReturnsTweet("https://api.twitter.com/1.1/statuses/destroy/" + id + ".json", parameters: nil, completion: completion)
+    }
+    
     func retweet(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> ()) {
         var params = Dictionary<String, AnyObject>()
         postRequestReturnsTweet("https://api.twitter.com/1.1/statuses/retweet/" + tweet.id! + ".json", parameters: params, completion: completion)
+    }
+    
+    func destroyRetweet(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        let tweetId = tweet.retweetedStatus?.id ?? tweet.id
+        
+        getStatus(tweetId!, completion: { (tweet, error) -> () in
+            if let currentUserRetweetId = tweet?.currentUserRetweetId {
+                self.destroyStatus(currentUserRetweetId, completion: completion)
+            } else {
+                completion(tweet: nil, error: nil)
+            }
+        })
     }
     
     func createFavorite(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> ()) {
@@ -204,7 +214,6 @@ class TwitterClient {
                 if let error = error {
                     completion(tweet: nil, error: error)
                 } else {
-                    NSLog("Dictionary: %@", jsonDict)
                     completion(tweet: Tweet(dictionary: jsonDict), error: nil)
                 }
             },
@@ -214,9 +223,9 @@ class TwitterClient {
         )
     }
     
-    private func postRequestReturnsTweet(url: String, parameters: Dictionary<String, AnyObject>, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+    private func postRequestReturnsTweet(url: String, parameters: Dictionary<String, AnyObject>?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
         oauth.client.post(url,
-            parameters: parameters,
+            parameters: parameters ?? Dictionary<String, AnyObject>(),
             success: { (data: NSData, response: NSHTTPURLResponse) -> Void in
                 var error: NSError?
                 let jsonDict = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error) as! NSDictionary

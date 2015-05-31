@@ -84,7 +84,6 @@ class ContainerViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     @IBAction func onPanContentView(sender: UIPanGestureRecognizer) {
         switch sender.state {
@@ -93,8 +92,6 @@ class ContainerViewController: UIViewController {
         case .Changed:
             let delta = sender.translationInView(view)
             containerCenterConstraint.constant = originalContainerCenterX! - delta.x
-//            if delta.x > 0 && delta.x <= hamburgerView.frame.width {
-//            }
         case .Ended:
             let velocity = sender.velocityInView(self.view)
 
@@ -107,36 +104,6 @@ class ContainerViewController: UIViewController {
             let foo = 1
         }
     }
-    
-    
-    @IBAction func onSelectProfile(sender: AnyObject) {
-        (profileVc.topViewController as! ProfileViewController).account = Account.currentAccount
-        activeViewController = profileVc
-        hideHamburgerAnimation()
-    }
-    
-    @IBAction func onSelectHomeTimeline(sender: AnyObject) {
-        homeNavigatorVc.popToRootViewControllerAnimated(true)
-        activeViewController = homeNavigatorVc
-        hideHamburgerAnimation()
-    }
-    
-    @IBAction func onSelectMentions(sender: AnyObject) {
-        homeNavigatorVc.popToRootViewControllerAnimated(true)
-        activeViewController = mentionsNavigatorVc
-        hideHamburgerAnimation()
-    }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     private func revealHamburgerAnimation() {
         slideAnimation() {
@@ -161,7 +128,6 @@ class ContainerViewController: UIViewController {
             animations: animations,
             completion: nil
         )
-
     }
 }
 
@@ -197,10 +163,6 @@ extension ContainerViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         hideHamburgerAnimation()
-        
-//        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TweetCell
-//        
-//        self.performSegueWithIdentifier(tweetsToDetailSegue, sender: self)
     }
 }
 
