@@ -20,6 +20,7 @@ enum TweetCellMode {
 protocol TweetCellProtocol: class {
     func tweetCell(tweetCell: TweetCell, didUpdateTweet: Tweet)
     func tweetCell(tweetCell: TweetCell, replyToTweet: Tweet)
+    func tweetCell(tweetCell: TweetCell, didTapProfileForTweet: Tweet)
 }
 
 class TweetCell: UITableViewCell {
@@ -120,6 +121,13 @@ class TweetCell: UITableViewCell {
         
         profileImageView.layer.cornerRadius = 3
         profileImageView.clipsToBounds = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: "onTapProfile")
+        profileImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    func onTapProfile() {
+        self.delegate?.tweetCell(self, didTapProfileForTweet: tweet)
     }
     
     @IBAction func onReply(sender: AnyObject) {

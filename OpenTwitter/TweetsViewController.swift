@@ -10,6 +10,7 @@ import UIKit
 
 let tweetsToDetailSegue = "tweetsToDetailSegue"
 let tweetsToComposeSegue = "tweetsToComposeSegue"
+let tweetsToProfileSegue = "tweetsToProfileSegue"
 let homeToReplyComposeSegue = "homeToReplyComposeSegue"
 
 protocol TweetsViewControllerDataSource: class {
@@ -24,6 +25,7 @@ class TweetsViewController: UIViewController {
     private var tweets: [Tweet]?
     
     private var replyToTweet: Tweet?
+    private var profileForTweet: Tweet?
     private var hasOlderTweets: Bool = true
     
     weak var dataSource: TweetsViewControllerDataSource!
@@ -51,33 +53,37 @@ class TweetsViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier! {
-            case tweetsToComposeSegue:
-                let navigationController = segue.destinationViewController as! UINavigationController
-                let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
-                composeTweetViewController.delegate = self
+        case tweetsToComposeSegue:
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
+            composeTweetViewController.delegate = self
             
-                if replyToTweet != nil {
-                    composeTweetViewController.inReplyToTweet = replyToTweet
-                    replyToTweet = nil
-                }
-            case tweetsToDetailSegue:
-                if let indexPath = tableView.indexPathForSelectedRow() {
-                    let cell = tableView.cellForRowAtIndexPath(indexPath) as! TweetCell
-                    let detailController = segue.destinationViewController as! DetailViewController
-                    detailController.tweet = cell.tweet
-                    detailController.parentCell = cell
-                    detailController.delegate = self
-                    
-                    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-                } else {
-                    NSLog("Trying to segue to detail view without a selected tweet")
-                }
-            default:
-                NSLog("aa")
+            if replyToTweet != nil {
+                composeTweetViewController.inReplyToTweet = replyToTweet
+                replyToTweet = nil
+            }
+        case tweetsToDetailSegue:
+            if let indexPath = tableView.indexPathForSelectedRow() {
+                let cell = tableView.cellForRowAtIndexPath(indexPath) as! TweetCell
+                let detailController = segue.destinationViewController as! DetailViewController
+                detailController.tweet = cell.tweet
+                detailController.parentCell = cell
+                detailController.delegate = self
+                
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            } else {
+                NSLog("Trying to segue to detail view without a selected tweet")
+            }
+        case tweetsToProfileSegue:
+            let profileVc = segue.destinationViewController as! ProfileViewController
+            let tweetForView = profileForTweet!.retweetedStatus ?? profileForTweet!
+            profileVc.account = tweetForView.account!
+        default:
+            NSLog("aa")
         }
         
     }
-    
+        
     func onRefresh() {
         dataSource.tweetsViewController(self, loadTweetsWithMaxId: nil) { (tweets, error) -> () in
             self.refreshControl.endRefreshing()
@@ -160,9 +166,14 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
 extension TweetsViewController: TweetCellProtocol {
     func tweetCell(tweetCell: TweetCell, didUpdateTweet: Tweet) {}
     
-    func tweetCell(tweetCell: TweetCell, replyToTweet: Tweet) {
-        self.replyToTweet = replyToTweet
+    func tweetCell(tweetCell: TweetCell, replyToTweet tweet: Tweet) {
+        replyToTweet = tweet
         performSegueWithIdentifier(tweetsToComposeSegue, sender: self)
+    }
+    
+    func tweetCell(tweetCell: TweetCell, didTapProfileForTweet tweet: Tweet) {
+        profileForTweet = tweet
+        performSegueWithIdentifier(tweetsToProfileSegue, sender: self)
     }
 }
 

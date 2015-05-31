@@ -9,6 +9,7 @@
 import UIKit
 
 let detailToComposeSegue = "detailToComposeSegue"
+let detailToProfileSegue = "detailToProfileSegue"
 
 protocol DetailViewControllerProtocol: class {
     func detailViewController(detailViewController: DetailViewController, didUpdateTweet: Tweet)
@@ -52,6 +53,10 @@ class DetailViewController: UIViewController {
             let composeTweetViewController = navigationController.topViewController as! ComposeTweetViewController
             composeTweetViewController.delegate = self
             composeTweetViewController.inReplyToTweet = tweet
+        case detailToProfileSegue:
+            let profileVc = segue.destinationViewController as! ProfileViewController
+            let tweetForView = tweet.retweetedStatus ?? tweet!
+            profileVc.account = tweetForView.account!
         default:
             NSLog("Unknown segue: \(segue.identifier)")
         }
@@ -92,5 +97,9 @@ extension DetailViewController: TweetCellProtocol {
     
     func tweetCell(tweetCell: TweetCell, replyToTweet: Tweet) {
         performSegueWithIdentifier(detailToComposeSegue, sender: self)
+    }
+    
+    func tweetCell(tweetCell: TweetCell, didTapProfileForTweet: Tweet) {
+        performSegueWithIdentifier(detailToProfileSegue, sender: self)
     }
 }

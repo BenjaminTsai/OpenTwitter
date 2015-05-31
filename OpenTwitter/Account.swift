@@ -17,9 +17,15 @@ class Account: NSObject {
 
     var name: String?
     var screenname: String?
+    var tagline: String?
+    
+    var followersCount: Int?
+    var friendsCount: Int?
+    var statusesCount: Int?
+    
     var profileImageUrl: String?
     var profileImageBiggerUrl: String?
-    var tagline: String?
+    var bannerImageUrl: String?
     var dictionary: NSDictionary
     
     init(dictionary: NSDictionary) {
@@ -29,12 +35,20 @@ class Account: NSObject {
         screenname = dictionary["screen_name"] as? String
         tagline = dictionary["description"] as? String
 
+        followersCount = dictionary["followers_count"] as? Int
+        friendsCount = dictionary["friends_count"] as? Int
+        statusesCount = dictionary["statuses_count"] as? Int
+        
         profileImageUrl = dictionary["profile_image_url"] as? String
         if let url = profileImageUrl {
             var range = url.rangeOfString("_normal\\.", options: .RegularExpressionSearch)
             if let range = range {
                 profileImageBiggerUrl = url.stringByReplacingCharactersInRange(range, withString: "_bigger.")
             }
+        }
+        
+        if let url = dictionary["profile_banner_url"] as? String {
+            bannerImageUrl = url + "/600x200"
         }
     }
  

@@ -16,7 +16,7 @@ class ContainerViewController: UIViewController {
     
     private var originalContainerCenterX: CGFloat?
     
-    private var profileVc: ProfileViewController!
+    private var profileVc: UINavigationController!
     private var homeNavigatorVc: UINavigationController!
     private var mentionsNavigatorVc: UINavigationController!
     
@@ -42,7 +42,8 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        profileVc = storyboard!.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        profileVc = storyboard!.instantiateViewControllerWithIdentifier("NavProfileViewController") as! UINavigationController
+        (profileVc.topViewController as! ProfileViewController).isFromHamburger = true
         
         homeDataSource = HomeTimelineDataSource()
         homeNavigatorVc = storyboard!.instantiateViewControllerWithIdentifier("TweetsNavViewController") as! UINavigationController
@@ -67,14 +68,14 @@ class ContainerViewController: UIViewController {
             originalContainerCenterX = containerCenterConstraint.constant
         case .Changed:
             let delta = sender.translationInView(view)
-            if delta.x > 0 && delta.x <= hamburgerView.frame.width {
-                containerCenterConstraint.constant = originalContainerCenterX! - delta.x
-            }
+            containerCenterConstraint.constant = originalContainerCenterX! - delta.x
+//            if delta.x > 0 && delta.x <= hamburgerView.frame.width {
+//            }
         case .Ended:
             let velocity = sender.velocityInView(self.view)
 
             if velocity.x > 0 {
-                containerCenterConstraint.constant = -150
+                containerCenterConstraint.constant = -1 * hamburgerView.frame.width
             } else {
                 containerCenterConstraint.constant = 0
             }
@@ -85,7 +86,8 @@ class ContainerViewController: UIViewController {
     
     
     @IBAction func onSelectProfile(sender: AnyObject) {
-        profileVc.account = Account.currentAccount
+        (profileVc.topViewController as! ProfileViewController).account = Account.currentAccount
+        
         activeViewController = profileVc
     }
     

@@ -19,11 +19,11 @@ Time spent: `16.5` hours
 - [x] Hamburger menu
   - [x] Dragging anywhere in the view should reveal the menu.
   - [x] The menu should include links to your profile, the home timeline, and the mentions view.
-- [ ] Profile page
-  - [ ] Contains the user header view
-  - [ ] Contains a section with the users basic stats: # tweets, # following, # followers
-- [ ] Home Timeline
-  - [ ] Tapping on a user image should bring up that user's profile page
+- [x] Profile page
+  - [x] Contains the user header view
+  - [x] Contains a section with the users basic stats: # tweets, # following, # followers
+- [x] Home Timeline
+  - [x] Tapping on a user image should bring up that user's profile page
 
 ### Optional
 
