@@ -8,9 +8,28 @@
 
 import UIKit
 
+enum MenuEnum {
+    case Profile, Home, Mention
+    
+    static func fromRow(row: Int) -> MenuEnum {
+        switch row {
+        case 0:
+            return .Profile
+        case 1:
+            return .Home
+        case 2:
+            return .Mention
+        default:
+            NSLog("Unexpected row \(row)")
+            return .Home
+        }
+    }
+}
+
 class ContainerViewController: UIViewController {
     
     @IBOutlet weak var hamburgerView: UIView!
+    @IBOutlet weak var hamburgerTableView: UITableView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var containerCenterConstraint: NSLayoutConstraint!
     
@@ -53,6 +72,11 @@ class ContainerViewController: UIViewController {
         mentionsNavigatorVc = storyboard!.instantiateViewControllerWithIdentifier("TweetsNavViewController") as! UINavigationController
         (mentionsNavigatorVc.topViewController as! TweetsViewController).dataSource = mentionsDataSource
         
+        hamburgerTableView.delegate = self
+        hamburgerTableView.dataSource = self
+        hamburgerTableView.rowHeight = UITableViewAutomaticDimension
+        hamburgerTableView.estimatedRowHeight = 120
+
         activeViewController = homeNavigatorVc
     }
 
@@ -138,6 +162,45 @@ class ContainerViewController: UIViewController {
             completion: nil
         )
 
+    }
+}
+
+extension ContainerViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if .Profile == MenuEnum.fromRow(indexPath.row) {
+            let cell = tableView.dequeueReusableCellWithIdentifier("MenuProfileCell", forIndexPath: indexPath) as! MenuProfileCell
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! MenuCell
+        cell.menu = MenuEnum.fromRow(indexPath.row)
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        switch MenuEnum.fromRow(indexPath.row) {
+        case .Profile:
+            (profileVc.topViewController as! ProfileViewController).account = Account.currentAccount
+            activeViewController = profileVc
+        case .Home:
+            homeNavigatorVc.popToRootViewControllerAnimated(true)
+            activeViewController = homeNavigatorVc
+        case .Mention:
+            homeNavigatorVc.popToRootViewControllerAnimated(true)
+            activeViewController = mentionsNavigatorVc
+        }
+
+        hideHamburgerAnimation()
+        
+//        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TweetCell
+//        
+//        self.performSegueWithIdentifier(tweetsToDetailSegue, sender: self)
     }
 }
 
