@@ -15,7 +15,8 @@ class ViewController: UIViewController {
             if let account = account {
                 NSLog("login success")
                 Account.currentAccount = account
-                self.performSegueWithIdentifier("loginToTweetsSegue", sender: self)
+                // self.performSegueWithIdentifier("loginToTweetsSegue", sender: self)
+                self.performSegueWithIdentifier("loginToContainerSegue", sender: self)
             } else if let error = error {
                 NSLog("%@", error)
             } else {

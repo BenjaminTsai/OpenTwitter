@@ -60,4 +60,17 @@ class Tweet: NSObject {
         return tweets
     }
     
+    func retweet(completion: (sender: Tweet, error: NSError?) -> ()) {
+        TwitterClient.sharedInstance.retweet(self, completion: { (retweet, error) -> () in
+            if let error = error {
+                completion(sender: self, error: error)
+            } else if let retweet = retweet {
+                self.retweeted = true
+                self.currentUserRetweetId = retweet.id
+                completion(sender: self, error: nil)
+            } else {
+                NSLog("Received empty result on retweet")
+            }
+        })
+    }
 }

@@ -46,9 +46,12 @@ class TweetCell: UITableViewCell {
     var mode: TweetCellMode = .Compact    
     var tweet: Tweet! {
         didSet {
+            let isRetweet = tweet.retweetedStatus != nil
+            let isRetweetedByMe = tweet.retweeted ?? false
+            
             let tweetForDisplay: Tweet
-            if let retweetedStatus = tweet.retweetedStatus {
-                tweetForDisplay = retweetedStatus
+            if isRetweet {
+                tweetForDisplay = tweet.retweetedStatus!
                 retweeterLabel.text = "\(tweet.account!.name!) retweeted"
 
                 retweeterIconImageView.hidden = false
@@ -76,7 +79,7 @@ class TweetCell: UITableViewCell {
             retweetCountLabel?.text = "\(tweetForDisplay.retweetCount ?? 0)"
             favoriteCountLabel?.text = "\(tweetForDisplay.favoriteCount ?? 0)"
             
-            if tweet.retweeted ?? false {
+            if isRetweetedByMe {
                 retweetButton.setImage(UIImage(named: retweetOnImageName), forState: UIControlState.Normal)
             } else {
                 retweetButton.setImage(UIImage(named: retweetImageName), forState: UIControlState.Normal)
@@ -124,12 +127,13 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func onRetweet(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweet(tweet, completion: { (tweet, error) -> () in
+        TwitterClient.sharedInstance.retweet(tweet, completion: { (retweet, error) -> () in
             if let error = error {
                 NSLog("Error: %@", error)
-            } else if let tweet = tweet {
+            } else if let retweet = retweet {
+                let tweet = self.tweet
+                tweet.retweeted = true
                 self.tweet = tweet
-                self.delegate?.tweetCell(self, didUpdateTweet: tweet)
             } else {
                 NSLog("Received empty result on destroy favorite")
             }

@@ -12,6 +12,10 @@ let tweetsToDetailSegue = "tweetsToDetailSegue"
 let tweetsToComposeSegue = "tweetsToComposeSegue"
 let homeToReplyComposeSegue = "homeToReplyComposeSegue"
 
+protocol TweetsViewControllerDataSource: class {
+    func tweetsViewController(sender: TweetsViewController, loadTweetsWithMaxId maxId: Int?, completion: (tweets: [Tweet]?, error: NSError?) -> ())
+}
+
 class TweetsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -21,6 +25,8 @@ class TweetsViewController: UIViewController {
     
     private var replyToTweet: Tweet?
     private var hasOlderTweets: Bool = true
+    
+    weak var dataSource: TweetsViewControllerDataSource!
     
     @IBAction func onLogout(sender: AnyObject) {
         Account.currentAccount?.logout()
@@ -73,9 +79,9 @@ class TweetsViewController: UIViewController {
     }
     
     func onRefresh() {
-        TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: { (tweets, error) -> () in
+        dataSource.tweetsViewController(self, loadTweetsWithMaxId: nil) { (tweets, error) -> () in
             self.refreshControl.endRefreshing()
-
+            
             if let error = error {
                 NSLog("Error %@", error)
             } else {
@@ -83,7 +89,7 @@ class TweetsViewController: UIViewController {
                 self.hasOlderTweets = true
                 self.tableView.reloadData()
             }
-        })
+        }
     }
 }
 
@@ -125,10 +131,9 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         
         // Displayed loading section, time to grab more tweets
         let oldestTweet = tweets![tweets!.count - 1]
-        var params = Dictionary<String, AnyObject>()
+        let tweetMaxId = oldestTweet.id_int! - 1
 
-        params["max_id"] = oldestTweet.id_int! - 1
-        TwitterClient.sharedInstance.homeTimelineWithParams(params) { (tweets, error) -> () in
+        dataSource.tweetsViewController(self, loadTweetsWithMaxId: tweetMaxId) { (tweets, error) -> () in
             if let error = error {
                 NSLog("Error while loading moret tweets: %@", error)
                 return

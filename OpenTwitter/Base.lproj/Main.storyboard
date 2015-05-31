@@ -35,11 +35,12 @@
                     <navigationItem key="navigationItem" id="Rhr-Hn-Qxe"/>
                     <connections>
                         <segue destination="t1E-Zd-fPJ" kind="modal" identifier="loginToTweetsSegue" id="bZg-fj-ZH7"/>
+                        <segue destination="kTm-ID-uba" kind="modal" identifier="loginToContainerSegue" id="8WU-yH-9Yt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="458" y="301"/>
+            <point key="canvasLocation" x="375" y="301"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jah-Is-iit">
@@ -203,7 +204,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1UK-iK-qtM">
                                                     <rect key="frame" x="129" y="4" width="62" height="78.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -397,6 +398,120 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NMy-m8-2y6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1876" y="653"/>
+        </scene>
+        <!--Container View Controller-->
+        <scene sceneID="01o-1G-kQa">
+            <objects>
+                <viewController storyboardIdentifier="ContainerViewController" id="kTm-ID-uba" customClass="ContainerViewController" customModule="OpenTwitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="M5N-U2-CnK"/>
+                        <viewControllerLayoutGuide type="bottom" id="UIE-Ap-QZY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dCl-Sv-bq3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rbS-zB-rJc">
+                                <rect key="frame" x="0.0" y="20" width="150" height="548"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAZ-hU-JZ1">
+                                        <rect key="frame" x="53" y="20" width="44" height="30"/>
+                                        <state key="normal" title="Profile">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSelectProfile:" destination="kTm-ID-uba" eventType="touchUpInside" id="5oN-gW-w9O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAf-HK-gUb">
+                                        <rect key="frame" x="43" y="120" width="64" height="30"/>
+                                        <state key="normal" title="Mentions">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSelectMentions:" destination="kTm-ID-uba" eventType="touchUpInside" id="a0r-5p-W14"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jN8-pm-XT5">
+                                        <rect key="frame" x="24" y="70" width="103" height="30"/>
+                                        <state key="normal" title="Home Timeline">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSelectHomeTimeline:" destination="kTm-ID-uba" eventType="touchUpInside" id="l9o-RY-OwC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="jAf-HK-gUb" secondAttribute="centerX" id="5nB-9G-e3x"/>
+                                    <constraint firstItem="jAf-HK-gUb" firstAttribute="top" secondItem="jN8-pm-XT5" secondAttribute="bottom" constant="20" id="GXV-Cx-oxV"/>
+                                    <constraint firstAttribute="centerX" secondItem="jN8-pm-XT5" secondAttribute="centerX" id="Mc0-zj-cON"/>
+                                    <constraint firstItem="yAZ-hU-JZ1" firstAttribute="top" secondItem="rbS-zB-rJc" secondAttribute="top" constant="20" id="UHb-s3-nPB"/>
+                                    <constraint firstAttribute="width" constant="150" id="cRS-fc-Acf"/>
+                                    <constraint firstAttribute="centerX" secondItem="yAZ-hU-JZ1" secondAttribute="centerX" id="rYz-6j-6ZV"/>
+                                    <constraint firstItem="jN8-pm-XT5" firstAttribute="top" secondItem="yAZ-hU-JZ1" secondAttribute="bottom" constant="20" id="zgu-MR-3ic"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CYN-JU-IOb">
+                                <rect key="frame" x="148" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.3706842628" green="0.74053193689999997" blue="0.924124053" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="UlD-oX-784" appends="YES" id="nYX-3I-mti"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="CYN-JU-IOb" secondAttribute="width" id="0og-8L-yXb"/>
+                            <constraint firstItem="rbS-zB-rJc" firstAttribute="top" secondItem="M5N-U2-CnK" secondAttribute="bottom" id="6o9-PE-9gu"/>
+                            <constraint firstAttribute="height" secondItem="CYN-JU-IOb" secondAttribute="height" id="AX0-Pq-ZM6"/>
+                            <constraint firstItem="rbS-zB-rJc" firstAttribute="leading" secondItem="dCl-Sv-bq3" secondAttribute="leading" id="Sh5-Sb-Ldq"/>
+                            <constraint firstItem="UIE-Ap-QZY" firstAttribute="top" secondItem="rbS-zB-rJc" secondAttribute="bottom" id="cBe-OZ-7si"/>
+                            <constraint firstAttribute="centerX" secondItem="CYN-JU-IOb" secondAttribute="centerX" id="gTr-BL-p0s"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerCenterConstraint" destination="gTr-BL-p0s" id="O0N-Oc-Oxt"/>
+                        <outlet property="contentView" destination="CYN-JU-IOb" id="6hP-cG-aaU"/>
+                        <outlet property="hamburgerView" destination="rbS-zB-rJc" id="009-xd-d6z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YxH-sX-Moi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="UlD-oX-784">
+                    <connections>
+                        <action selector="onPanContentView:" destination="kTm-ID-uba" id="hH0-8k-05j"/>
+                    </connections>
+                </panGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="375" y="1112"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="5n5-c5-Z7K">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" id="Vm7-Gl-hTp" customClass="ProfileViewController" customModule="OpenTwitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kXt-9d-SWq"/>
+                        <viewControllerLayoutGuide type="bottom" id="zjU-Ov-daf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Jsu-3R-UGs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bIo-ne-8fs">
+                                <rect key="frame" x="16" y="20" width="158" height="134"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="profileImageView" destination="bIo-ne-8fs" id="2ah-Wx-lem"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kjF-0M-L2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="898" y="1112"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="G0P-n6-BoD">

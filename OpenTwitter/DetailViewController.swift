@@ -32,17 +32,17 @@ class DetailViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
-//        TwitterClient.sharedInstance.getStatus(tweet.id!, completion: { (tweet, error) -> () in
-//            NSLog("reloading getstatus")
-//            
-//            if let error = error {
-//                NSLog("Error %@", error)
-//                return
-//            }
-//            
-//            self.tweet = tweet
-//            self.tableView.reloadData()
-//        })
+        TwitterClient.sharedInstance.getStatus(tweet.id!, completion: { (tweet, error) -> () in
+            NSLog("reloading getstatus")
+            
+            if let error = error {
+                NSLog("Error %@", error)
+                return
+            }
+            
+            self.tweet = tweet
+            self.tableView.reloadData()
+        })
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

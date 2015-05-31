@@ -21,7 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Account.currentAccount != nil {
             // Go to the logged in screen
-            var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavViewController") as? UIViewController
+//            var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavViewController") as? UIViewController
+            var vc = storyboard.instantiateViewControllerWithIdentifier("ContainerViewController") as? UIViewController
             window?.rootViewController = vc
         }
         return true
