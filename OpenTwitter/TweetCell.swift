@@ -44,11 +44,13 @@ class TweetCell: UITableViewCell {
 
     weak var delegate: TweetCellProtocol?
     
-    var mode: TweetCellMode = .Compact    
+    var mode: TweetCellMode = .Compact
+    var isRetweet = false
+    var isRetweetedByMe = false
     var tweet: Tweet! {
         didSet {
-            let isRetweet = tweet.retweetedStatus != nil
-            let isRetweetedByMe = tweet.retweeted ?? false
+            isRetweet = tweet.retweetedStatus != nil
+            isRetweetedByMe = tweet.retweeted ?? false
             
             let tweetForDisplay: Tweet
             if isRetweet {
@@ -135,14 +137,19 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func onRetweet(sender: AnyObject) {
-        if tweet.retweeted ?? false {
-            TwitterClient.sharedInstance.destroyRetweet(tweet, completion: { (tweet, error) -> () in
+        if isRetweetedByMe {
+            TwitterClient.sharedInstance.destroyRetweet(tweet, completion: { (retweet, error) -> () in
                 if let error = error {
                     NSLog("Error: %@", error)
-                } else if let tweet = tweet {
-                    let tweet = self.tweet
-                    tweet.retweeted = false
-                    self.tweet = tweet
+                } else if let retweet = retweet {
+                    TwitterClient.sharedInstance.getStatus(self.tweet.id!, completion: { (tweet, error) -> () in
+                        if let error = error {
+                            NSLog("Error: %@", error)
+                        } else if let tweet = tweet {
+                            self.tweet = tweet
+                            self.delegate?.tweetCell(self, didUpdateTweet: tweet)
+                        }
+                    })
                 } else {
                     NSLog("Received empty result on destroy retweet")
                 }
@@ -152,9 +159,14 @@ class TweetCell: UITableViewCell {
                 if let error = error {
                     NSLog("Error: %@", error)
                 } else if let retweet = retweet {
-                    let tweet = self.tweet
-                    tweet.retweeted = true
-                    self.tweet = tweet
+                    TwitterClient.sharedInstance.getStatus(self.tweet.id!, completion: { (tweet, error) -> () in
+                        if let error = error {
+                            NSLog("Error: %@", error)
+                        } else if let tweet = tweet {
+                            self.tweet = tweet
+                            self.delegate?.tweetCell(self, didUpdateTweet: tweet)
+                        }
+                    })
                 } else {
                     NSLog("Received empty result on create retweet")
                 }
