@@ -62,7 +62,6 @@ class ContainerViewController: UIViewController {
         super.viewDidLoad()
 
         profileVc = storyboard!.instantiateViewControllerWithIdentifier("NavProfileViewController") as! UINavigationController
-        (profileVc.topViewController as! ProfileViewController).isFromHamburger = true
         
         homeDataSource = HomeTimelineDataSource()
         homeNavigatorVc = storyboard!.instantiateViewControllerWithIdentifier("TweetsNavViewController") as! UINavigationController

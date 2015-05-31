@@ -20,17 +20,11 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followerCountLabel: UILabel!
     
-    var isFromHamburger = false
     var account: Account!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if isFromHamburger {
-            // this hack shouldn't be necessary
-            imageTopConstraint.constant = 30
-        }
-
         nameLabel.text = account.name!
         screennameLabel.text = "@" + account.screenname!
         
