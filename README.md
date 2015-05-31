@@ -2,7 +2,7 @@
 
 This is a simple Twitter app to read and compose Tweets.
 
-Time spent: `16.5` hours
+Time spent: `22` hours
 
 ## Features
 
@@ -51,6 +51,8 @@ To run this app, you'll need to create a `secrets.plist` resource file and popul
 ## Walkthrough
 
 ![Video Walkthrough](demo.gif)
+![Video Walkthrough](demo2.gif)
+![Video Walkthrough](demo3.gif)
 
 ## Credits
 * [Twitter API](https://dev.twitter.com/rest/public)
